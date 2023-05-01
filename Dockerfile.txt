@@ -1,0 +1,14 @@
+FROM continuumio/anaconda3
+
+COPY . /usr/app/
+
+EXPOSE 8000
+
+WORKDIR /usr/app/
+
+RUN pip install -r requirements.txt && \
+    pip install python-multipart && \
+    conda install -c conda-forge uvicorn && \
+    conda clean --all --yes
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
